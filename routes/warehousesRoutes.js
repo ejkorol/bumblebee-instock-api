@@ -6,6 +6,10 @@ router
   .route("/:id")
   .get(warehouseController.findOne)
   .delete(warehouseController.deleteWarehouse);
-router.route("/").post(warehouseController.postWarehouse);
+
+router
+  .route("/")
+  .get(warehouseController.getWarehouses)
+  .post(warehouseController.postWarehouse);
 
 export default router;

@@ -16,6 +16,17 @@ export const findOne = async (req, res) => {
   }
 };
 
+export const getWarehouses = async (_req, res) => {
+  try {
+    const warehouses = await knex.select("*").from("warehouses");
+    res.json(warehouses);
+    if (!warehouses)
+      return res.status(404).json({ message: "Warehouses not found" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  };
+};
+
 export const postWarehouse = async (req, res) => {
   try {
     const warehouseIds = await knex("warehouses").insert(req.body);
