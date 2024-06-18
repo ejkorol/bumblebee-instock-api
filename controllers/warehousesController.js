@@ -34,3 +34,18 @@ export const postWarehouse = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteWarehouse = async (req, res) => {
+  try {
+    const warehouse = await knex("warehouses")
+      .where({ id: req.params.id })
+      .first();
+    if (!warehouse) {
+      return res.status(404).json({ message: "Warehouse not found" });
+    }
+    await knex("warehouses").where({ id: req.params.id }).del();
+    return res.status(204).json({ message: "Warehouse deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
