@@ -3,8 +3,9 @@ const router = express.Router();
 import * as warehouseController from "../controllers/warehousesController.js";
 
 router
-  .route("/:id")
-  .get(warehouseController.findOne)
+	.route("/:id")
+	.get(warehouseController.findOne)
+	.put(warehouseController.putWarehouse);
   .delete(warehouseController.deleteWarehouse);
 
 router
