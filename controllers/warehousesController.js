@@ -4,7 +4,12 @@ const knex = initKnex(configure);
 
 export const findOne = async (req, res) => {
   try {
-    const warehouse = await knex("warehouses").where({ id: req.params.id });
+    const warehouse = await knex("warehouses")
+      .where({ id: req.params.id })
+      .first();
+    if (!warehouse)
+      return res.status(404).json({ message: "Warehouse not found" });
+
     return res.status(200).json(warehouse);
   } catch (error) {
     res.status(500).json({ message: error.message });
