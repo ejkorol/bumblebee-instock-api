@@ -34,3 +34,11 @@ export const postWarehouse = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const putWarehouse = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
