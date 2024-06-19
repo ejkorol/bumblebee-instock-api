@@ -16,4 +16,3 @@ app.use(express.json());
 app.use("/warehouses", warehouseRoutes);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-
