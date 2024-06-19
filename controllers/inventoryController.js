@@ -1,12 +1,13 @@
 import {
-  getInventoryById as getInventoryByIdService
+  postInventory as postInventoryService
 } from "../services/inventoryKnex.js";
 
-export const getInventoryById = async (req, res) => {
+/* CREATE INVENTORY ITEM */
+export const postInventory = async (req, res) => {
   try {
-    const id = req.params.id;
-    const inventory = await getInventoryByIdService(id);
-    res.status(200).json(inventory);
+    const data = req.body;
+    const result = await postInventoryService(data);
+    return res.status(201).json(result);
   } catch (e) {
     res.status(500).json({ message: e.message });
   };

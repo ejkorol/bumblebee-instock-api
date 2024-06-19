@@ -1,26 +1,25 @@
 import initKnex from "knex";
-import configure from "../knexfile.js";
-const knex = initKnex(configure);
+import config from "../knexfile.js";
+const knex = initKnex(config);
 
-export const getInventoryById = async (id) => {
+/* CREATE INVENTORY ITEM */
+export const postInventory = async (data) => {
   try {
-    const warehouseId = id;
-
-    const inventory = await knex("inventories")
-      .where({ warehouse_id: warehouseId });
-
-    const warehouses = await knex("warehouses")
-      .where({ id: id })
-      .first();
-
-    if (!warehouses) {
-      throw new Error("Warehouse does not exist")
-    };
-    if (!inventory) {
-      throw new Error("Inventories not found")
-    };
-
-    return inventory;
+    const inventoryId = await knex("inventories").insert(data);
+    const inventoryArray = await knex("inventories").where({
+      id: inventoryId[0]
+    });
+    const returnInventory = inventoryArray[0];
+    const inventoryItem = {
+      id: returnInventory.id,
+      warehouse_id: returnInventory.warehouse_id,
+      item_name: returnInventory.item_name,
+      description: returnInventory.description,
+      category: returnInventory.category,
+      status: returnInventory.status,
+      quantity: returnInventory.quantity
+    }
+    return inventoryItem;
   } catch (e) {
     throw new Error(e);
   };
