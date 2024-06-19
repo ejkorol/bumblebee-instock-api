@@ -3,7 +3,7 @@ import configure from "../knexfile.js";
 const knex = initKnex(configure);
 
 // Find a warehouse by id
-export const getOne = async (id) => {
+export const findOne = async (id) => {
   try {
     const one = await knex("warehouses").where({ id: id }).first();
     if (!one) {
@@ -16,7 +16,7 @@ export const getOne = async (id) => {
 };
 
 // Find a warehouse and its inventory by id
-export const getWarehouseInven = async (id) => {
+export const getWarehouseInventory = async (id) => {
   try {
     const warehouseId = id;
     const warehouse = await knex("warehouses")
@@ -39,7 +39,7 @@ export const getWarehouseInven = async (id) => {
 };
 
 //Get all warehouses
-export const getAll = async () => {
+export const getWarehouses = async () => {
   try {
     const warehouses = await knex.select("*").from("warehouses");
     if (!warehouses) {
@@ -52,7 +52,7 @@ export const getAll = async () => {
 };
 
 //Create a warehouse
-export const createOne = async (warehouse) => {
+export const postWarehouse = async (warehouse) => {
   try {
     const warehouseIds = await knex("warehouses").insert(warehouse);
     const warehouseArray = await knex("warehouses").where({
@@ -76,7 +76,7 @@ export const createOne = async (warehouse) => {
 };
 
 //Update a warehouse
-export const updateOne = async (id, warehouse) => {
+export const putWarehouse = async (id, warehouse) => {
   try {
     const phoneRegex = /^\+\d{1,2}\s\(\d{3}\)\s\d{3}-\d{4}$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -115,7 +115,7 @@ export const updateOne = async (id, warehouse) => {
 };
 
 //Delete a warehouse
-export const deleteOne = async (id) => {
+export const deleteWarehouse = async (id) => {
   try {
     const warehouse = await knex("warehouses").where({ id: id }).first();
     if (!warehouse) {
@@ -126,4 +126,29 @@ export const deleteOne = async (id) => {
   } catch (error) {
     throw new Error(error);
   }
+};
+
+/* GET INVENTORY BY ID */
+export const getInventoryById = async (id) => {
+  try {
+    const warehouseId = id;
+
+    const inventory = await knex("inventories")
+      .where({ warehouse_id: warehouseId });
+
+    const warehouses = await knex("warehouses")
+      .where({ id: id })
+      .first();
+
+    if (!warehouses) {
+      throw new Error("Warehouse does not exist")
+    };
+    if (!inventory) {
+      throw new Error("Inventories not found")
+    };
+
+    return inventory;
+  } catch (e) {
+    throw new Error(e);
+  };
 };

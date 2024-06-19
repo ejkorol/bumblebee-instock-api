@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 import {
   findOne,
   putWarehouse,
@@ -9,6 +8,8 @@ import {
   postWarehouse,
   getInventoryById
 } from "../controllers/warehousesController.js";
+
+const router = express.Router();
 
 /* WAREHOUSE BY ID */
 router
