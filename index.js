@@ -20,7 +20,7 @@ app.use(express.json());
 
 /* ROUTES */
 app.use("/warehouses", warehouseRoutes);
-app.use("/warehouses", inventoryRoutes);
+app.use("/inventories", inventoryRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`)
