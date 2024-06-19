@@ -9,6 +9,10 @@ router
   .delete(warehouseController.deleteWarehouse);
 
 router
+  .route("/details/:id")
+  .get(warehouseController.getWarehouseInventory);
+
+router
   .route("/")
   .get(warehouseController.getWarehouses)
   .post(warehouseController.postWarehouse);
