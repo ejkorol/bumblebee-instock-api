@@ -17,29 +17,6 @@ export const findOne = async (req, res) => {
   }
 };
 
-// GET LIST OF ALL INVENTORY
-export const getInventoryList = async (req, res) => {
-  try {
-    const warehouseId = req.params.id;
-    const warehouse = await knex("warehouses")
-      .where({ id: warehouseId })
-      .first();
-    if (!warehouse) {
-      return res.status(404).json({ message: "Warehouse not found" });
-    }
-    const inventories = await knex("inventories")
-      .where({ warehouse_id: warehouseId });
-    const result = {
-      ...warehouse,
-      inventories: inventories
-    };
-    return res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}
-
-
 /* GET WAREHOUSE + ITS INVENTORY */
 export const getWarehouseInventory = async (req, res) => {
   try {
