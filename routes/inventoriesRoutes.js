@@ -1,9 +1,12 @@
 import express from "express";
-const router = express.Router();
-import * as inventoryController from "../controllers/inventoriesController.js";
+const inventoryRouter = express.Router();
+import {
+  getInventoryById
+} from "../controllers/inventoryController.js";
 
-router
-    .route("/inventories")
-    .get(inventoryController.getInventories);
 
-export default router;
+inventoryRouter
+  .route("/:id/inventories")
+  .get(getInventoryById);
+
+export default inventoryRouter;
