@@ -1,9 +1,10 @@
 import express from "express";
-const inventoryRouter = express.Router();
+
 import {
   getInventoryById
 } from "../controllers/inventoryController.js";
 
+const inventoryRouter = express.Router();
 
 inventoryRouter
   .route("/:id/inventories")

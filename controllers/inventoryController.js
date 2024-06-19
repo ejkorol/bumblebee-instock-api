@@ -2,6 +2,7 @@ import {
   getInventoryById as getInventoryByIdService
 } from "../services/inventoryKnex.js";
 
+/* GET INVENTORY BY ID */
 export const getInventoryById = async (req, res) => {
   try {
     const id = req.params.id;

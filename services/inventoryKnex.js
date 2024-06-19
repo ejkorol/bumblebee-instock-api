@@ -2,6 +2,7 @@ import initKnex from "knex";
 import configure from "../knexfile.js";
 const knex = initKnex(configure);
 
+/* GET INVENTORY BY ID */
 export const getInventoryById = async (id) => {
   try {
     const warehouseId = id;
