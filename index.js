@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import warehouseRoutes from "./routes/warehousesRoutes.js";
+const PORT = process.env.PORT || 8080;
 import inventoryRoutes from "./routes/inventoriesRoutes.js";
 
 /* CONFIG */
