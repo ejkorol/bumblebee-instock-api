@@ -2,6 +2,7 @@ import initKnex from "knex";
 import configure from "../knexfile.js";
 const knex = initKnex(configure);
 
+/* FIND A WAREHOUSE */
 export const findOne = async (req, res) => {
   try {
     const warehouse = await knex("warehouses")
@@ -16,6 +17,29 @@ export const findOne = async (req, res) => {
   }
 };
 
+/* GET WAREHOUSE + ITS INVENTORY */
+export const getWarehouseInventory = async (req, res) => {
+  try {
+    const warehouseId = req.params.id;
+    const warehouse = await knex("warehouses")
+      .where({ id: warehouseId })
+      .first();
+    if (!warehouse) {
+      return res.status(404).json({ message: "Warehouse not found" });
+    }
+    const inventories = await knex("inventories")
+      .where({ warehouse_id: warehouseId });
+    const result = {
+      ...warehouse,
+      inventories: inventories
+    };
+    return res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+/* GET ALL WAREHOUSES */
 export const getWarehouses = async (_req, res) => {
   try {
     const warehouses = await knex.select("*").from("warehouses");
@@ -27,6 +51,7 @@ export const getWarehouses = async (_req, res) => {
   };
 };
 
+/* CREATE A WAREHOUSE */
 export const postWarehouse = async (req, res) => {
   try {
     const warehouseIds = await knex("warehouses").insert(req.body);
@@ -51,6 +76,7 @@ export const postWarehouse = async (req, res) => {
   }
 };
 
+/* UPDATE A WAREHOUSE */
 export const putWarehouse = async (req, res) => {
   try {
     const phoneRegex = /^\+\d{1,2}\s\(\d{3}\)\s\d{3}-\d{4}$/;
@@ -88,6 +114,7 @@ export const putWarehouse = async (req, res) => {
   }
 }
 
+/* DELETE A WAREHOUSE */
 export const deleteWarehouse = async (req, res) => {
   try {
     const warehouse = await knex("warehouses")
