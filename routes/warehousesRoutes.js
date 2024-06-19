@@ -1,21 +1,35 @@
 import express from "express";
 const router = express.Router();
-import * as warehouseController from "../controllers/warehousesController.js";
+import {
+  findOne,
+  putWarehouse,
+  deleteWarehouse,
+  getWarehouseInventory,
+  getWarehouses,
+  postWarehouse,
+  getInventoryById
+} from "../controllers/warehousesController.js";
 
-// router for find one, put and delete controllers
+/* WAREHOUSE BY ID */
 router
   .route("/:id")
-  .get(warehouseController.findOne)
-  .put(warehouseController.putWarehouse)
-  .delete(warehouseController.deleteWarehouse);
+  .get(findOne)
+  .put(putWarehouse)
+  .delete(deleteWarehouse);
 
-// router for getWarehouseInventory controller
-router.route("/details/:id").get(warehouseController.getWarehouseInventory);
+/* WAREHOUSE DETAILS BY ID */
+router
+  .route("/details/:id")
+  .get(getWarehouseInventory);
 
-//router for getWarehouses and postWarehouse controllers
+/* BASE */
 router
   .route("/")
-  .get(warehouseController.getWarehouses)
-  .post(warehouseController.postWarehouse);
+  .get(getWarehouses)
+  .post(postWarehouse);
+
+router
+  .route("/:id/inventories")
+  .get(getInventoryById);
 
 export default router;
