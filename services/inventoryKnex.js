@@ -67,3 +67,20 @@ export const putInventory = async (data, id) => {
     throw new Error(e);
   };
 };
+
+/* GET INVENTORY DETAILS BY ID */
+export const getInventoryDetails = async (id) => {
+	try {
+		const inventoryDetails = await knex("inventories")
+      .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
+      .select('inventories.id', 'warehouses.warehouse_name', 'inventories.item_name', 'inventories.description', 'inventories.description', 'inventories.category', 'inventories.status', 'inventories.quantity')
+			.where({ warehouse_id: id })
+			.first();
+		if (!inventoryDetails) {
+			throw new Error("Inventory not found");
+		}
+		return inventoryDetails;
+	} catch (error) {
+		throw new Error(error);
+	}
+};
