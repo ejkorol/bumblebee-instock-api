@@ -24,7 +24,7 @@ export const getInventory = async (_req, res) => {
   }
 };
 
-export const getInventoryDetails = async (req, res) => {
+export const getInventoryDetails = async (_req, res) => {
   try {
     const inventory = await getInventoryDetailsService();
     res.json(inventory)
