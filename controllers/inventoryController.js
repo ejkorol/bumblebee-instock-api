@@ -18,18 +18,17 @@ export const postInventory = async (req, res) => {
 export const getInventory = async (_req, res) => {
   try {
     const allInventories = await getInventoryService();
-    res.json(allInventories)
+    res.status(200).json(allInventories)
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-export const getInventoryDetails = async (_req, res) => {
+export const getInventoryDetails = async (req, res) => {
   try {
-    const inventory = await getInventoryDetailsService();
-    res.json(inventory)
+    const inventory = await getInventoryDetailsService(req.params.id);
+    res.status(200).json(inventory)
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
-

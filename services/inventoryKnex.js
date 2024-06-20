@@ -25,6 +25,7 @@ export const postInventory = async (data) => {
 	}
 };
 
+//Find all inventories
 export const getInventory = async () => {
 	try {
 		const inventories = await knex.select("*").from("inventories");
@@ -38,15 +39,15 @@ export const getInventory = async () => {
 	}
 };
 
+//Find details for each inventory item by id
 export const getInventoryDetails = async (id) => {
-	try {
-		const inventory = await knex.select("*").from("inventories");
-		if (!inventory)
-			return res.status(404).json({ message: "Inventories not found" });
-		else {
-			return inventory;
-		}
-	} catch (e) {
-		throw new Error(e);
-	}
+  try {
+    const inventoryDetails = await knex("inventories").where({ id: id }).first();
+    if (!inventoryDetails) {
+      throw new Error("Inventory not found");
+    }
+    return inventoryDetails;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
