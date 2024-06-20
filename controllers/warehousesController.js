@@ -12,7 +12,6 @@ import {
 export const findOne = async (req, res) => {
   try {
     const warehouse = await findOneService(req.params.id);
-
     return res.status(200).json(warehouse);
   } catch (error) {
     res.status(500).json({ message: error.message });
