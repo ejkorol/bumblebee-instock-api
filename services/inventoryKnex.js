@@ -25,7 +25,7 @@ export const postInventory = async (data) => {
 	}
 };
 
-//Find all inventories
+/* GET INVENTORY ITEM */
 export const getInventory = async () => {
 	try {
 		const inventories = await knex.select("*").from("inventories");
@@ -39,7 +39,36 @@ export const getInventory = async () => {
 	}
 };
 
-//Find details for each inventory item by id
+/* UPDATE INVENTORY ITEM */
+export const putInventory = async (data, id) => {
+  try {
+    const inventoryItem = await knex("inventories").where({ id: id });
+    if (!inventoryItem) {
+      res.status(404).json({ message: "Inventories not found" });
+    } 
+    await knex("inventories").where({ id: id }).update({
+      warehouse_id: data.warehouse_id,
+      item_name: data.item_name,
+      description: data.description,
+      category: data.category,
+      status: data.status,
+      quantity: data.quantity
+    });
+    return {
+      id: data.id,
+      warehouse_id: data.warehouse_id,
+      item_name: data.item_name,
+      description: data.description,
+      category: data.category,
+      status: data.status,
+      quantity: data.quantity
+    };
+  } catch (e) {
+    throw new Error(e);
+  };
+};
+
+/* GET INVENTORY DETAILS BY ID */
 export const getInventoryDetails = async (id) => {
 	try {
 		const inventoryDetails = await knex("inventories")

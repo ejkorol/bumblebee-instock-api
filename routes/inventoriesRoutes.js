@@ -1,7 +1,8 @@
 import express from "express";
 import {
-  postInventory,
   getInventory,
+  postInventory,
+  putInventory,
   getInventoryDetails
 } from "../controllers/inventoryController.js";
 
@@ -15,5 +16,6 @@ inventoryRouter
 inventoryRouter
   .route("/:id")
   .get(getInventoryDetails)
+  .put(putInventory);
 
 export default inventoryRouter;
