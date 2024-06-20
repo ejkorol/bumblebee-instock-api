@@ -16,7 +16,7 @@ export const postInventory = async (req, res) => {
   };
 };
 
-/* GET SINGLE INVENTORY ITEM */
+/* GET ALL INVENTORY ITEMS */
 export const getInventory = async (_req, res) => {
   try {
     const allInventories = await getInventoryService();
@@ -26,6 +26,7 @@ export const getInventory = async (_req, res) => {
   }
 };
 
+/* GET SINGLE INVENTORY ITEM */
 export const getInventoryDetails = async (req, res) => {
   try {
     const inventory = await getInventoryDetailsService(req.params.id);
