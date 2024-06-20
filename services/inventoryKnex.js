@@ -38,10 +38,21 @@ export const postInventory = async (data) => {
 	};
 };
 
-/* GET INVENTORY ITEM */
+/* GET INVENTORIES */
 export const getInventory = async () => {
 	try {
-		const inventories = await knex.select("*").from("inventories");
+		const inventories = await knex
+			.join("warehouses", "warehouses.id", "inventories.warehouse_id")
+			.select(
+				"inventories.id",
+				"warehouses.warehouse_name",
+				"inventories.item_name",
+				"inventories.description",
+				"inventories.category",
+				"inventories.status",
+				"inventories.quantity"
+			)
+			.from("inventories");
 		if (!inventories)
 			return res.status(404).json({ message: "Inventories not found" });
 		else {
@@ -97,15 +108,22 @@ export const putInventory = async (data, id) => {
 /* GET INVENTORY DETAILS BY ID */
 export const getInventoryDetails = async (id) => {
 	try {
-		const inventoryDetails = await knex("inventories")
-      .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
-      .select('inventories.id', 'warehouses.warehouse_name', 'inventories.item_name', 'inventories.description', 'inventories.description', 'inventories.category', 'inventories.status', 'inventories.quantity')
-			.where({ warehouse_id: id })
-			.first();
-		if (!inventoryDetails) {
+		const one = await knex("inventories").where({ "inventories.id": id })
+    .join("warehouses", "warehouses.id", "inventories.warehouse_id")
+    .select(
+        "inventories.id",
+        "warehouses.warehouse_name",
+      	"inventories.item_name",
+      	"inventories.description",
+      	"inventories.category",
+      	"inventories.status",
+      	"inventories.quantity"
+      )
+      .first();
+		if (!one) {
 			throw new Error("Inventory not found");
 		}
-		return inventoryDetails;
+		return one;
 	} catch (error) {
 		throw new Error(error);
 	}
