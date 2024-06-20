@@ -37,3 +37,16 @@ export const getInventory = async () => {
 		throw new Error(e);
 	}
 };
+
+export const getInventoryDetails = async (id) => {
+	try {
+		const inventory = await knex.select("*").from("inventories");
+		if (!inventory)
+			return res.status(404).json({ message: "Inventories not found" });
+		else {
+			return inventory;
+		}
+	} catch (e) {
+		throw new Error(e);
+	}
+};
