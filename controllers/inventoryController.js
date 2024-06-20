@@ -1,5 +1,6 @@
 import {
-  postInventory as postInventoryService
+  postInventory as postInventoryService,
+  getInventory as getInventoryService
 } from "../services/inventoryKnex.js";
 
 /* CREATE INVENTORY ITEM */
@@ -11,4 +12,13 @@ export const postInventory = async (req, res) => {
   } catch (e) {
     res.status(500).json({ message: e.message });
   };
+};
+
+export const getInventory = async (_req, res) => {
+  try {
+    const allInventories = await getInventoryService();
+    res.json(allInventories)
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 };
