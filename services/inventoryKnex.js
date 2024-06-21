@@ -129,3 +129,19 @@ export const getInventoryDetails = async (id) => {
 		throw new Error(error);
 	}
 };
+
+/* DELETE INVENTORY ITEM */
+
+export const deleteInventoryItem = async (id) => {
+  try {
+    const dlt = await knex("inventories").where({ "inventories.id" : id }).del()
+
+    if (!dlt) {
+      res.status(404).json({message: "inventory not found"});
+    } 
+    return dlt;
+
+  } catch (e) {
+    throw new Error(e)
+  }
+}
