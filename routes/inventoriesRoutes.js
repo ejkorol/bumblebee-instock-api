@@ -3,8 +3,10 @@ import {
   getInventory,
   postInventory,
   putInventory,
-  getInventoryDetails
+  getInventoryDetails,
+  deleteInventory
 } from "../controllers/inventoryController.js";
+import { deleteInventoryItem } from "../services/inventoryKnex.js";
 
 const inventoryRouter = express.Router();
 
@@ -16,6 +18,7 @@ inventoryRouter
 inventoryRouter
   .route("/:id")
   .get(getInventoryDetails)
-  .put(putInventory);
+  .put(putInventory)
+  .delete(deleteInventory)
 
 export default inventoryRouter;
