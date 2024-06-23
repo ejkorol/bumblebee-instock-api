@@ -28,10 +28,7 @@ export const getWarehouseInventory = async (id) => {
     const inventories = await knex("inventories").where({
       warehouse_id: warehouseId,
     });
-    const result = {
-      ...warehouse,
-      inventories: inventories,
-    };
+    const result = inventories
     return result;
   } catch (error) {
     throw new Error(error);
