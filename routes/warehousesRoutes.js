@@ -5,8 +5,7 @@ import {
   deleteWarehouse,
   getWarehouseInventory,
   getWarehouses,
-  postWarehouse,
-  getInventoryById,
+  postWarehouse
 } from "../controllers/warehousesController.js";
 
 const router = express.Router();
