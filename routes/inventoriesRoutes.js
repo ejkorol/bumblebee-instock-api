@@ -6,7 +6,6 @@ import {
   getInventoryDetails,
   deleteInventory
 } from "../controllers/inventoryController.js";
-import { deleteInventoryItem } from "../services/inventoryKnex.js";
 
 const inventoryRouter = express.Router();
 
