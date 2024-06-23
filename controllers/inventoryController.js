@@ -19,9 +19,39 @@ export const postInventory = async (req, res) => {
 };
 
 /* GET ALL INVENTORY ITEMS */
-export const getInventory = async (_req, res) => {
+export const getInventory = async (req, res) => {
   try {
-    const allInventories = await getInventoryService();
+    let allInventories = await getInventoryService();
+    const sort = req.query.sort_by;
+    const order = req.query.order_by;
+
+    if (sort) {
+      allInventories = allInventories.sort((a, b) => {
+        if (sort === "name") {
+          return order === "desc"
+            ? b.item_name.localeCompare(a.item_name)
+            : a.item_name.localeCompare(b.item_name);
+        } else if (sort === "category") {
+          return order === "desc"
+            ? b.category.localeCompare(a.category)
+            : a.category.localeCompare(b.category);
+        } else if (sort === "status") {
+          return order === "desc"
+            ? b.status.localeCompare(a.status)
+            : a.status.localeCompare(b.status);
+        } else if (sort === "quantity") {
+          return order === "desc"
+            ? b.quantity - a.quantity
+            : a.quantity - b.quantity;
+        } else if (sort === "warehouse") {
+          return order === "desc"
+            ? b.warehouse_name.localeCompare(a.warehouse_name)
+            : a.warehouse_name.localeCompare(b.warehouse_name);
+        } else {
+          return 0;
+        }
+      });
+    }
     res.status(200).json(allInventories);
   } catch (e) {
     res.status(500).json({ message: e.message });
