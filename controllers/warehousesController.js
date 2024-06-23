@@ -5,7 +5,7 @@ import {
   postWarehouse as postWarehouseService,
   putWarehouse as putWarehouseService,
   deleteWarehouse as deleteWarehouseService,
-  getInventoryById as getInventoryByIdService
+  getInventoryById as getInventoryByIdService,
 } from "../services/warehouseKnex.js";
 
 /* FIND A WAREHOUSE */
@@ -30,9 +30,36 @@ export const getWarehouseInventory = async (req, res) => {
 };
 
 /* GET ALL WAREHOUSES */
-export const getWarehouses = async (_req, res) => {
+export const getWarehouses = async (req, res) => {
   try {
-    const warehouses = await getWarehousesService();
+    let warehouses = await getWarehousesService();
+    const sortBy = req.query.sort_by;
+    const order = req.query.order_by;
+
+    if (sortBy) {
+      warehouses = warehouses.sort((a, b) => {
+        if (sortBy === "name") {
+          return order === "desc"
+            ? b.warehouse_name.localeCompare(a.warehouse_name)
+            : a.warehouse_name.localeCompare(b.warehouse_name);
+        } else if (sortBy === "address") {
+          return order === "desc"
+            ? b.address.localeCompare(a.address)
+            : a.address.localeCompare(b.address);
+        } else if (sortBy === "contact") {
+          return order === "desc"
+            ? b.contact_name.localeCompare(a.contact_name)
+            : a.contact_name.localeCompare(b.contact_name);
+        } else if (sortBy === "number") {
+          return order === "desc"
+            ? b.contact_number - a.contact_number
+            : a.contact_number - b.contact_number;
+        } else {
+          return 0;
+        }
+      });
+    }
+
     res.json(warehouses);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -77,5 +104,5 @@ export const getInventoryById = async (req, res) => {
     res.status(200).json(inventory);
   } catch (e) {
     res.status(500).json({ message: e.message });
-  };
+  }
 };
